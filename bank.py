@@ -14,6 +14,10 @@ class Account:
 
 
     def deposit(self, amount):
+        try:
+            amount + 10
+        except TypeError:
+            return f"Please enter {amount} in figures"
         if amount <= 0:
             return f"Please deposit a valid amount"
         else:
@@ -23,6 +27,10 @@ class Account:
             return f"Hello {self.name} you have deposited {amount} your new balance is {self.balance}"
    
     def withdraw (self,amount):
+        try:
+            amount + 10
+        except TypeError:
+            return f"Please enter {amount} in figures"
         
         if amount <= 0:
             return "Input valid amount"
@@ -37,6 +45,10 @@ class Account:
             return f"Hello {self.name}, you have successfully withdrawn {amount}. Your current balance is {self.balance}"
     
     def borrow(self,amount):
+        try:
+            amount + 10
+        except TypeError:
+            return f"Please enter {amount} in figures"
         total_fees= self.loan_fees* amount / 100
         
         if amount <= 0:
@@ -53,6 +65,10 @@ class Account:
             return f"Dear customer, you have received a loan amount of {amount} and your current balance is {self.balance}. Your total loan amount is {self.loan_amount}"
     
     def repay(self,amount):
+        try:
+            amount + 10
+        except TypeError:
+            return f"Please enter {amount} in figures"
         if amount < self.loan_amount:
             self.loan_amount -=amount
             transaction = {"amount": amount,"balance":self.balance,"narration":"You repayed", "time":datetime.now()}
@@ -72,6 +88,24 @@ class Account:
         else:
               
               return f"Dear customer, you still have a loan balance of {self.loan_amount}"
+    
+    def transfer(self,amount,account):
+        try:
+            amount + 10
+        except TypeError:
+            return f"Please enter {amount} in figures"
+        if amount <= 0:
+            return f"Please transfer a valid amount"
+        fee = amount * 0.05
+        total = amount + fee
+        if total > self.balance:
+            return f"Your balance is {self.balance} you need {total} in order to transfer {amount}"
+        else:
+            self.balance -= total
+            account.deposit(amount)
+            transaction = {"amount": amount,"balance":self.balance,"narration":"You transfered", "time":datetime.now()}
+            self.transactions.append(transaction)
+            return f"Dear customer, you have transfered {amount} to accout {account.name}. Your new account balance is {self.balance}"
 
     def get_statement(self):
         for transaction  in self.transactions:
@@ -81,7 +115,25 @@ class Account:
             time = transaction["time"]
             date = time.strftime("%D")
             print (f" {date} .... {narration} .... {amount} ....Balance {balance}")
-    
+
+class MobileMoneyAccount(Account):
+    def __init__(self, name, phone, service_provider):
+        Account.__init__(self,name, phone)
+        self.service_provider = service_provider
+
+    def buy_airtime(self,amount):
+        try:
+            amount + 10
+        except TypeError:
+            return f"Please enter {amount} in figures"
+        if amount <= 0:
+            return f"Please enter a valid amount"
+        elif amount <= self.balance:
+            self.balance-=amount
+            transaction = {"amount": amount,"balance":self.balance,"narration":"You bought Airtime", "time":datetime.now()}
+            self.transactions.append(transaction)
+            return f"You have bought {amount} airtime. Your current {self.service_provider} mobile money balance is {self.balance}"
+          
 
 
 
