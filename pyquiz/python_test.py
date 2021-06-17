@@ -63,11 +63,11 @@ class Rectangle():
         self.width = width
         self.length = length
     def area(self):
-        A = self.width * self.length
-        return A
+        area = self.width * self.length
+        return area
     def perimeter(self):
-       P = 2*(self.length + self.width)
-       return P
+       perimeter= 2*(self.length + self.width)
+       return perimeter
 
 rectangle = Rectangle(10,30)
 print(rectangle.area())
